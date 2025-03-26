@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/input-otp";
 import Operation from "@/Operation.jsx";
 import Input from "./Input.jsx";
+import Registers from "./Registers.jsx";
 
 function App() {
     const [hexValue1, setHexValue1] = useState('');
@@ -20,6 +21,7 @@ function App() {
     const [result, setResult] = useState({ hex: '', bin: '', dec: '' });
     const [activeOperator, setActiveOperator] = useState('');
     const [expressions, setExpressions] = useState({ dec: '', hex: '', bin: '' });
+    const [maxBit, setMaxBit] = useState(3); // State riêng cho maxBit của Registers
 
     // Tạo mảng slot cho InputOTP dựa trên bitLength
     const generateSlots = (value, onChange, hasCarry = false) => {
@@ -190,7 +192,8 @@ function App() {
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            <div className="flex flex-col gap-6 w-auto gap">
+            <div className="flex flex-col lg:flex-row sm:flex-row xl:flex-row gap-6 w-auto">
+
                 <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-y-4 w-fit">
                     <h1 className="text-2xl font-bold text-center mb-6">
                         Dec0xb1n Calculator - For Tomorrow Embedded Test
@@ -241,10 +244,20 @@ function App() {
                     <Operation activeOperator={activeOperator} calculate={calculate} />
                 </div>
 
-                {/* Result Section */}
-                <div className="">
-                    <Result result={result} expressions={expressions} bitLength={bitLength} />
+                <div className={"flex flex-col gap-y-5"}>
+                    {/* Registers Section */}
+                    <div className="">
+                        <Registers maxBit={maxBit} setMaxBit={setMaxBit} />
+                    </div>
+                    {/* Result Section */}
+                    <div className="">
+                        <Result result={result} expressions={expressions} bitLength={bitLength} />
+                    </div>
                 </div>
+
+
+
+
             </div>
         </div>
     );

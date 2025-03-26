@@ -53,7 +53,7 @@ function Result({ result, expressions, bitLength }) {
     const maxBits = getMaxBits();
 
     return (
-        <div className="bg-white p-4 rounded-lg shadow-md w-full">
+        <div className="bg-white p-4 shadow-md w-full h-[500px] min-w-md rounded-xl">
             <h2 className="text-3xl font-bold mb-2 text-black">Result</h2>
             <br />
             <div className="space-y-4 text-lg">
