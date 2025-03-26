@@ -306,7 +306,7 @@ function App() {
     const [binValue2, setBinValue2] = useState('');
     const [decValue1, setDecValue1] = useState('');
     const [decValue2, setDecValue2] = useState('');
-    const [bitLength, setBitLength] = useState(4);
+    const [bitLength, setBitLength] = useState(1);
     const [result, setResult] = useState({ hex: '', bin: '', dec: '' });
     const [activeOperator, setActiveOperator] = useState('');
     const [expressions, setExpressions] = useState({ dec: '', hex: '', bin: '' });
@@ -505,7 +505,8 @@ function App() {
                                     <span className="text-sm text-gray-600">Bits:</span>
                                     <input
                                         type="number"
-                                        min="1"
+                                        min="0"
+                                        max="32"
                                         value={bitLength}
                                         onChange={(e) => handleBitLengthChange(e.target.value)}
                                         className="w-16 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"

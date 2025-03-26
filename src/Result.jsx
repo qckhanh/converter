@@ -16,20 +16,25 @@ function Result({ result, expressions, bitLength }) {
 
     return (
         <div className="bg-gray-50 p-4 rounded-lg shadow-md w-full">
-            <h2 className="text-xl font-bold mb-2 text-blue-600 font-serif">Result</h2>
-            <div className="space-y-4 text-lg font-serif">
+            <h2 className="text-3xl font-bold mb-2 text-black">Result</h2>
+            <hr/>
+            <br/>
+            <div className="space-y-4 text-lg">
                 {expressions.dec && (
-                    <p className="text-blue-800 font-bold">
+                    <p className=" font-semibold">
                         Decimal: {expressions.dec}
                     </p>
                 )}
+                <hr/>
+
                 {expressions.hex && (
-                    <p className="text-blue-800 font-bold">
+                    <p className=" font-semibold">
                         Hexadecimal: {expressions.hex}
                     </p>
                 )}
+                <hr/>
                 {expressions.bin && (
-                    <div className="text-blue-800 font-bold">
+                    <div className=" font-semibold">
                         Binary Expression:
                         {expressions.bin.split('\n').map((line, index) => (
                             <p key={index}>{line}</p>
@@ -37,9 +42,8 @@ function Result({ result, expressions, bitLength }) {
                     </div>
                 )}
                 <div className="space-y-2">
-                    <p>Hex: <span className="font-mono text-blue-800">{result.hex}</span></p>
                     <div>
-                        Binary:{' '}
+                        {/*Binary:{' '}*/}
                         <InputOTP maxLength={bitLength} value={result.bin.padStart(bitLength, '0')}>
                             {binaryGroups.map((group, groupIndex) => (
                                 <InputOTPGroup key={groupIndex}>
@@ -55,7 +59,6 @@ function Result({ result, expressions, bitLength }) {
                             ))}
                         </InputOTP>
                     </div>
-                    <p>Decimal: <span className="font-mono text-blue-800">{result.dec}</span></p>
                 </div>
             </div>
         </div>
