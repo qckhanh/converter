@@ -185,7 +185,7 @@ function App() {
             <div className="flex flex-col gap-6 w-auto gap">
                 <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-y-4 w-fit">
                     <h1 className="text-2xl font-bold text-center mb-6">
-                        Number System Calculator
+                        Dec0xb1n Calculator - For Tomorrow Embedded Test
                     </h1>
                     <div className="flex items-center gap-2">
                         <span className="text-sm text-gray-600">Bits:</span>
