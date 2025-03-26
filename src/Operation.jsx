@@ -1,7 +1,7 @@
 const Operation = ({calculate, activeOperator}) => {
     return (
         <div className="grid grid-cols-4 gap-2">
-            {['+', '-', 'X', '/', '&', '|', '^'].map((op) => (
+            {['+', '-', '*', '/', '&', '|', '^'].map((op) => (
                 <button
                     key={op}
                     onClick={() => calculate(op)}
