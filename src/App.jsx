@@ -111,7 +111,7 @@ function App() {
             setExpressions({
                 dec: `${dec1} ${operator} ${dec2} = ${resultDec}`,
                 hex: `${hexValue1 || '0'} ${operator} ${hexValue2 || '0'} = ${resultDec.toString(16).toUpperCase()}`,
-                bin: `${binValue1 || '0'}\n${operator}\n${binValue2 || '0'}\n= ${resultBin}`
+                bin: `${binValue1 || '0'} ${operator} ${binValue2 || '0'} = ${resultBin}`
             });
         }
     };
