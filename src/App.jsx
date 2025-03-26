@@ -1,4 +1,4 @@
-
+// App.jsx
 import { useState } from 'react';
 import Result from './Result';
 import {
@@ -23,33 +23,37 @@ function App() {
 
     // Tạo mảng slot cho InputOTP dựa trên bitLength
     const generateSlots = (value, onChange, hasCarry = false) => {
+        const binaryValue = value || '';
+        const totalBits = Math.max(bitLength, binaryValue.length); // Tổng số ô = max(bitLength, độ dài thực tế)
         const binaryGroups = [];
-        const paddedValue = (value || '').padStart(bitLength, '0').split('');
-        for (let i = 0; i < bitLength; i += 4) {
+        const paddedValue = binaryValue.padStart(totalBits, '0').split(''); // Đệm để có độ dài bằng totalBits
+
+        // Tách thành nhóm 4 bit
+        for (let i = 0; i < totalBits; i += 4) {
             binaryGroups.push(paddedValue.slice(i, i + 4));
         }
+
         return (
             <InputOTP
-                maxLength={bitLength + (hasCarry ? 1 : 0)}
-                value={hasCarry ? '1' + value : value}
+                maxLength={totalBits}
+                value={paddedValue.join('')}
                 onChange={(newValue) => {
-                    const clean = hasCarry ? newValue.slice(1) : newValue;
-                    onChange(clean.replace(/[^01]/g, ''));
+                    onChange(newValue.replace(/[^01]/g, ''));
                 }}
             >
-                {hasCarry && (
-                    <InputOTPGroup>
-                        <InputOTPSlot index={0} className="bg-red-200 border-red-500" />
-                    </InputOTPGroup>
-                )}
                 {binaryGroups.map((group, groupIndex) => (
                     <InputOTPGroup key={groupIndex}>
-                        {group.map((_, slotIndex) => (
-                            <InputOTPSlot
-                                key={slotIndex}
-                                index={(hasCarry ? 1 : 0) + groupIndex * 4 + slotIndex}
-                            />
-                        ))}
+                        {group.map((digit, slotIndex) => {
+                            const currentIndex = groupIndex * 4 + slotIndex;
+                            const isOverflow = currentIndex < (totalBits - bitLength); // Các bit vượt quá bitLength
+                            return (
+                                <InputOTPSlot
+                                    className={`${isOverflow ? 'bg-red-200 border-red-500' : ''}`}
+                                    key={slotIndex}
+                                    index={currentIndex}
+                                />
+                            );
+                        })}
                     </InputOTPGroup>
                 ))}
             </InputOTP>
@@ -99,7 +103,7 @@ function App() {
             setExpressions({
                 dec: `${dec1} ${operator} ${dec2} = Error`,
                 hex: `${hexValue1 || '0'} ${operator} ${hexValue2 || '0'} = Error`,
-                bin: `${binValue1 || '0'}\n${operator}\n${binValue2 || '0'}\n= Error`
+                bin: `${binValue1 || '0'} ${operator} ${binValue2 || '0'} = Error`
             });
         } else {
             const resultBin = resultDec.toString(2);
@@ -199,7 +203,8 @@ function App() {
                     </div>
 
                     <div className={"flex flex-col gap-y-5 lg:gap-x-5 lg:flex-row md:flex-col sm:flex-col"}>
-                        <Input decValue1={decValue1}
+                        <Input
+                            decValue1={decValue1}
                             handleDecChange={handleDecChange}
                             generateSlots={generateSlots}
                             hexValue1={hexValue1}
@@ -211,27 +216,25 @@ function App() {
                             bitLength={bitLength}
                             activeOperator={activeOperator}
                             calculate={calculate}
-                               isTrack={true}
+                            isTrack={true}
                         />
-                        <Input decValue1={decValue2}
-                               handleDecChange={handleDecChange}
-                               generateSlots={generateSlots}
-                               hexValue1={hexValue2}
-                               handleHexChange={handleHexChange}
-                               binValue1={binValue2}
-                               handleBinChange={handleBinChange}
-                               hasCarryFlag={hasCarryFlag}
-                               binValue2={binValue2}
-                               bitLength={bitLength}
-                               activeOperator={activeOperator}
-                               calculate={calculate}
-                               isTrack={false}
+                        <Input
+                            decValue1={decValue2}
+                            handleDecChange={handleDecChange}
+                            generateSlots={generateSlots}
+                            hexValue1={hexValue2}
+                            handleHexChange={handleHexChange}
+                            binValue1={binValue2}
+                            handleBinChange={handleBinChange}
+                            hasCarryFlag={hasCarryFlag}
+                            binValue2={binValue2}
+                            bitLength={bitLength}
+                            activeOperator={activeOperator}
+                            calculate={calculate}
+                            isTrack={false}
                         />
                     </div>
                     <Operation activeOperator={activeOperator} calculate={calculate} />
-
-
-
                 </div>
 
                 {/* Result Section */}
