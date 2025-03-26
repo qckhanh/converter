@@ -6,6 +6,8 @@ import {
     InputOTPGroup,
     InputOTPSlot,
 } from "@/components/ui/input-otp";
+import Operation from "@/Operation.jsx";
+import Input from "../Input.jsx";
 
 function App() {
     const [hexValue1, setHexValue1] = useState('');
@@ -176,101 +178,56 @@ function App() {
 
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
-            <div className="flex flex-col gap-6 w-auto">
-                <div className="bg-white p-6 rounded-lg shadow-md flex-1">
+            <div className="flex flex-col gap-6 w-auto gap">
+                <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-y-4">
                     <h1 className="text-2xl font-bold text-center mb-6">
                         Number System Calculator
                     </h1>
-
-                    <div className="space-y-6">
-                        {/* Hexadecimal Inputs */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Hexadecimal</label>
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="text"
-                                    value={hexValue1}
-                                    onChange={(e) => handleHexChange(e.target.value, true)}
-                                    placeholder="First Hex"
-                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                                <div className="h-8 border-l border-gray-300"></div>
-                                <input
-                                    type="text"
-                                    value={hexValue2}
-                                    onChange={(e) => handleHexChange(e.target.value, false)}
-                                    placeholder="Second Hex"
-                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Binary Inputs */}
-                        <div>
-                            <div className="flex items-center justify-between mb-1">
-                                <label className="block text-sm font-medium text-gray-700">Binary</label>
-                                <div className="flex items-center gap-2">
-                                    <span className="text-sm text-gray-600">Bits:</span>
-                                    <input
-                                        type="text"
-                                        min="0"
-                                        value={bitLength}
-                                        onChange={(e) => handleBitLengthChange(e.target.value)}
-                                        className="w-16 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <div className="w-full">
-                                    {generateSlots(binValue1, (val) => handleBinChange(val, true), hasCarryFlag(binValue1))}
-                                </div>
-                                <div className="h-8 border-l border-gray-300"></div>
-                                <div className="w-full">
-                                    {generateSlots(binValue2, (val) => handleBinChange(val, false), hasCarryFlag(binValue2))}
-                                </div>
-                            </div>
-                            <p className={`text-sm mt-1 ${hasCarryFlag(binValue1) || hasCarryFlag(binValue2) ? 'text-red-500' : 'text-green-500'}`}>
-                                {hasCarryFlag(binValue1) || hasCarryFlag(binValue2)
-                                    ? `Carry Flag: ON (Exceeds ${bitLength}-bit limit)`
-                                    : 'Carry Flag: OFF'}
-                            </p>
-                        </div>
-
-                        {/* Decimal Inputs */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Decimal</label>
-                            <div className="flex items-center gap-2">
-                                <input
-                                    type="text"
-                                    value={decValue1}
-                                    onChange={(e) => handleDecChange(e.target.value, true)}
-                                    placeholder="First Decimal"
-                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                                <div className="h-8 border-l border-gray-300"></div>
-                                <input
-                                    type="text"
-                                    value={decValue2}
-                                    onChange={(e) => handleDecChange(e.target.value, false)}
-                                    placeholder="Second Decimal"
-                                    className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Operator Buttons */}
-                        <div className="grid grid-cols-4 gap-2">
-                            {['+', '-', '*', '/', '&', '|', '^'].map((op) => (
-                                <button
-                                    key={op}
-                                    onClick={() => calculate(op)}
-                                    className={`p-2 text-white rounded hover:bg-blue-600 ${activeOperator === op ? 'bg-blue-700' : 'bg-blue-500'}`}
-                                >
-                                    {op === '&' ? 'AND' : op === '|' ? 'OR' : op === '^' ? 'XOR' : op}
-                                </button>
-                            ))}
-                        </div>
+                    <div className="flex items-center gap-2">
+                        <span className="text-sm text-gray-600">Bits:</span>
+                        <input
+                            type="text"
+                            min="0"
+                            value={bitLength}
+                            onChange={(e) => handleBitLengthChange(e.target.value)}
+                            className="w-16 p-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
                     </div>
+
+                    <div className={"flex flex-col lg:flex-row md:flex-col md:gap-y-5 sm:flex-col sm:md:gap-y-5 gap-x-5"}>
+                        <Input decValue1={decValue1}
+                            handleDecChange={handleDecChange}
+                            generateSlots={generateSlots}
+                            hexValue1={hexValue1}
+                            handleHexChange={handleHexChange}
+                            binValue1={binValue1}
+                            handleBinChange={handleBinChange}
+                            hasCarryFlag={hasCarryFlag}
+                            binValue2={binValue1}
+                            bitLength={bitLength}
+                            activeOperator={activeOperator}
+                            calculate={calculate}
+                               isTrack={true}
+                        />
+                        <Input decValue1={decValue2}
+                               handleDecChange={handleDecChange}
+                               generateSlots={generateSlots}
+                               hexValue1={hexValue2}
+                               handleHexChange={handleHexChange}
+                               binValue1={binValue2}
+                               handleBinChange={handleBinChange}
+                               hasCarryFlag={hasCarryFlag}
+                               binValue2={binValue2}
+                               bitLength={bitLength}
+                               activeOperator={activeOperator}
+                               calculate={calculate}
+                               isTrack={false}
+                        />
+                    </div>
+                    <Operation activeOperator={activeOperator} calculate={calculate} />
+
+
+
                 </div>
 
                 {/* Result Section */}

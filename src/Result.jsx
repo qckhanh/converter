@@ -15,7 +15,7 @@ function Result({ result, expressions, bitLength }) {
     }
 
     return (
-        <div className="bg-gray-50 p-4 rounded-lg shadow-md w-full">
+        <div className="bg-white p-4 rounded-lg shadow-md w-full">
             <h2 className="text-3xl font-bold mb-2 text-black">Result</h2>
             <hr/>
             <br/>
