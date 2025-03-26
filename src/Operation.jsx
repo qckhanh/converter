@@ -5,7 +5,7 @@ const Operation = ({calculate, activeOperator}) => {
                 <button
                     key={op}
                     onClick={() => calculate(op)}
-                    className={`p-2 text-white rounded hover:bg-blue-600 ${activeOperator === op ? 'bg-blue-700' : 'bg-blue-500'}`}
+                    className={`p-2 text-white rounded hover:bg-gray-700 ${activeOperator === op ? 'bg-gray-600' : 'bg-black'}`}
                 >
                     {op === '&' ? 'AND' : op === '|' ? 'OR' : op === '^' ? 'XOR' : op}
                 </button>

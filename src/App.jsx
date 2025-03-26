@@ -16,7 +16,7 @@ function App() {
     const [binValue2, setBinValue2] = useState('');
     const [decValue1, setDecValue1] = useState('');
     const [decValue2, setDecValue2] = useState('');
-    const [bitLength, setBitLength] = useState(1);
+    const [bitLength, setBitLength] = useState(8);
     const [result, setResult] = useState({ hex: '', bin: '', dec: '' });
     const [activeOperator, setActiveOperator] = useState('');
     const [expressions, setExpressions] = useState({ dec: '', hex: '', bin: '' });
@@ -61,6 +61,10 @@ function App() {
         setBitLength(newBitLength);
         setBinValue1('');
         setBinValue2('');
+        setHexValue1('');
+        setHexValue2('');
+        setDecValue1('');
+        setDecValue2('');
         setResult({ hex: '', bin: '', dec: '' });
         setExpressions({ dec: '', hex: '', bin: '' });
     };
@@ -179,7 +183,7 @@ function App() {
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
             <div className="flex flex-col gap-6 w-auto gap">
-                <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-y-4">
+                <div className="bg-white p-6 rounded-lg shadow-md flex flex-col gap-y-4 w-fit">
                     <h1 className="text-2xl font-bold text-center mb-6">
                         Number System Calculator
                     </h1>
@@ -194,7 +198,7 @@ function App() {
                         />
                     </div>
 
-                    <div className={"flex flex-col lg:flex-row md:flex-col md:gap-y-5 sm:flex-col sm:md:gap-y-5 gap-x-5"}>
+                    <div className={"flex flex-col gap-y-5 lg:gap-x-5 lg:flex-row md:flex-col sm:flex-col"}>
                         <Input decValue1={decValue1}
                             handleDecChange={handleDecChange}
                             generateSlots={generateSlots}
