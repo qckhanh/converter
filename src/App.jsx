@@ -7,7 +7,7 @@ import {
     InputOTPSlot,
 } from "@/components/ui/input-otp";
 import Operation from "@/Operation.jsx";
-import Input from "../Input.jsx";
+import Input from "./Input.jsx";
 
 function App() {
     const [hexValue1, setHexValue1] = useState('');
@@ -24,28 +24,32 @@ function App() {
     // Tạo mảng slot cho InputOTP dựa trên bitLength
     const generateSlots = (value, onChange, hasCarry = false) => {
         const binaryValue = value || '';
-        const totalBits = Math.max(bitLength, binaryValue.length); // Tổng số ô = max(bitLength, độ dài thực tế)
+        const totalBits = Math.max(bitLength, binaryValue.length); // Hiển thị tất cả bit, bao gồm bit tràn
         const binaryGroups = [];
-        const paddedValue = binaryValue.padStart(totalBits, '0').split(''); // Đệm để có độ dài bằng totalBits
+        const currentValue = binaryValue.split(''); // Giá trị hiện tại, không điền số 0
+
+        // Tạo mảng các ô dựa trên totalBits
+        const slots = Array.from({ length: totalBits }, (_, index) => currentValue[index] || ''); // Nếu không có giá trị, để trống
 
         // Tách thành nhóm 4 bit
         for (let i = 0; i < totalBits; i += 4) {
-            binaryGroups.push(paddedValue.slice(i, i + 4));
+            binaryGroups.push(slots.slice(i, i + 4));
         }
 
         return (
             <InputOTP
                 maxLength={totalBits}
-                value={paddedValue.join('')}
+                value={binaryValue}
                 onChange={(newValue) => {
-                    onChange(newValue.replace(/[^01]/g, ''));
+                    const cleanedValue = newValue.replace(/[^01]/g, ''); // Chỉ cho phép nhập 0 và 1
+                    onChange(cleanedValue);
                 }}
             >
                 {binaryGroups.map((group, groupIndex) => (
                     <InputOTPGroup key={groupIndex}>
                         {group.map((digit, slotIndex) => {
                             const currentIndex = groupIndex * 4 + slotIndex;
-                            const isOverflow = currentIndex < (totalBits - bitLength); // Các bit vượt quá bitLength
+                            const isOverflow = binaryValue.length > bitLength && currentIndex < (binaryValue.length - bitLength);
                             return (
                                 <InputOTPSlot
                                     className={`${isOverflow ? 'bg-red-200 border-red-500' : ''}`}
